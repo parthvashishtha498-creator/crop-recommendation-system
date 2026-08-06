@@ -450,6 +450,4 @@ def user_details(request, user_id):
 def terms_privacy(request):
     return render(request, "terms_privacy.html")
 
-from django.contrib.auth.models import User
-from django.http import HttpResponse
 
