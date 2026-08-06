@@ -1,0 +1,201 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="card-header bg-success text-white text-center">
+
+                    <h3>
+
+                        <i class="fa-solid fa-user"></i>
+
+                        My Profile
+
+                    </h3>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div class="text-center">
+
+                        <img src="{{ request.user.profile.image.url }}"
+     class="rounded-circle shadow"
+     width="150"
+     height="150">
+
+                        <h3 class="fw-bold">
+
+                            {{ request.user.first_name }}
+                            {{ request.user.last_name }}
+
+                        </h3>
+
+                        <p class="text-muted">
+
+                            @{{ request.user.username }}
+
+                        </p>
+
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Email</strong>
+
+                            <p>{{ request.user.email }}</p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Username</strong>
+
+                            <p>{{ request.user.username }}</p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Date Joined</strong>
+
+                            <p>{{ request.user.date_joined|date:"d M Y" }}</p>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <strong>Total Predictions</strong>
+
+                            <p>
+
+                                <span class="badge bg-success fs-6">
+
+                                    {{ total_predictions }}
+
+                                </span>
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <hr>
+
+                    <h5>
+
+                        Latest Prediction
+
+                    </h5>
+
+                    {% if latest_prediction %}
+
+                        <div class="alert alert-success">
+
+                            🌱
+
+                            <strong>
+
+                                {{ latest_prediction.predicted_label }}
+
+                            </strong>
+
+                        </div>
+
+                    {% else %}
+
+                        <div class="alert alert-warning">
+
+                            No predictions made yet.
+
+                        </div>
+
+                    {% endif %}
+
+                    <div class="text-center mt-4">
+
+                        <a href="{% url 'edit_profile' %}"
+   class="btn btn-success">
+    <i class="fa-solid fa-pen"></i>
+    Edit Profile
+</a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<footer class="bg-dark text-white pt-5 pb-3">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-lg-4">
+<h3><i class="fa-solid fa-seedling text-success"></i> Crop Recommender</h3>
+<p class="text-light">
+Helping farmers make smarter decisions through Artificial Intelligence.
+</p>
+</div>
+
+<div class="col-lg-3">
+<h5>Quick Links</h5>
+<ul class="list-unstyled">
+<li><a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a></li>
+<li><a class="text-light text-decoration-none" href="{% url 'login' %}">Login</a></li>
+<li><a class="text-light text-decoration-none" href="{% url 'signup' %}">Signup</a></li>
+</ul>
+</div>
+
+<div class="col-lg-2">
+<h5>Technology</h5>
+<ul class="list-unstyled">
+<li>Django</li>
+<li>Bootstrap</li>
+<li>Scikit-Learn</li>
+<li>SQLite</li>
+</ul>
+</div>
+
+<div class="col-lg-3">
+<h5>Developer</h5>
+<p class="mb-1">Parth</p>
+<p class="mb-1">BCA Data Science</p>
+<p>PIET, Samalkha</p>
+</div>
+
+</div>
+
+<hr>
+
+<div class="text-center">
+© 2026 Smart Crop Recommendation System. All Rights Reserved.
+</div>
+
+</div>
+
+</footer>
+
+
+{% endblock %}

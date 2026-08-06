@@ -1,0 +1,89 @@
+.hero-gradient{
+    background:linear-gradient(135deg,#2e7d32,#4CAF50);
+    border-radius:10px;
+    width:100%;
+    margin:25px auto;
+}
+.hero-title{
+    font-weight:700;
+    margin-bottom:20px;
+}
+.stat-tile{
+    background: rgba(255,255,255,0.15);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    height: 100%;
+    transition: 0.3s;
+}
+
+.stat-tile:hover{
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.22);
+}
+
+.stat-title{
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.8);
+}
+
+.stat-value{
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+/* signup */
+.signup-card{
+    border-radius:20px;
+    overflow:hidden;
+}
+
+.input-group-text{
+    background:#fff;
+    border-right:0;
+}
+
+.input-group .form-control{
+    border-left:0;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 2.5rem; /* Prevents long text from going under the icon */
+}
+
+.password-wrapper button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.form-control{
+    height:48px;
+    border-radius:8px;
+}
+
+.btn-success{
+    border-radius:8px;
+    font-weight:600;
+}
+
+.signup-image{
+    min-height:720px;
+}
+
+@media(max-width:992px){
+
+.signup-image{
+    min-height:280px;
+}
+
+}

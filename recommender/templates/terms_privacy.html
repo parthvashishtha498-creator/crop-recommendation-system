@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Terms & Privacy{% endblock %}
+
+{% block content %}
+
+<section class="py-5 bg-light">
+
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-10">
+
+                <div class="card border-0 shadow-lg">
+
+                    <div class="card-header bg-success text-white py-4">
+
+                        <h2 class="mb-0">
+
+                            <i class="fa-solid fa-file-contract"></i>
+
+                            Terms & Privacy Policy
+
+                        </h2>
+
+                    </div>
+
+                    <div class="card-body p-5">
+
+                        <!-- Terms -->
+
+                        <h3 class="text-success">
+
+                            <i class="fa-solid fa-scale-balanced"></i>
+
+                            Terms & Conditions
+
+                        </h3>
+
+                        <hr>
+
+                        <ol>
+
+                            <li>
+                                This Smart Crop Recommendation System has been developed for educational and research purposes.
+                            </li>
+
+                            <li>
+                                Users are responsible for providing accurate soil and environmental data to obtain meaningful crop recommendations.
+                            </li>
+
+                            <li>
+                                Crop recommendations are generated using a trained Machine Learning model and should be considered as guidance rather than guaranteed agricultural advice.
+                            </li>
+
+                            <li>
+                                The developers are not responsible for any financial or agricultural losses resulting from decisions made using this application.
+                            </li>
+
+                            <li>
+                                Users must not attempt to misuse, modify, or disrupt the functionality of this system.
+                            </li>
+
+                            <li>
+                                By creating an account, users agree to follow these terms and use the application responsibly.
+                            </li>
+
+                        </ol>
+
+                        <br>
+
+                        <!-- Privacy -->
+
+                        <h3 class="text-success">
+
+                            <i class="fa-solid fa-user-shield"></i>
+
+                            Privacy Policy
+
+                        </h3>
+
+                        <hr>
+
+                        <ul>
+
+                            <li>
+                                We collect only the information required for account creation, including your name, username, and email address.
+                            </li>
+
+                            <li>
+                                Passwords are securely encrypted using Django's built-in authentication system and are never stored in plain text.
+                            </li>
+
+                            <li>
+                                Prediction history is stored only to allow users to view their previous crop recommendations.
+                            </li>
+
+                            <li>
+                                Personal information is not sold, rented, or shared with third parties.
+                            </li>
+
+                            <li>
+                                The application is intended solely for educational purposes as part of a BCA Data Science major project.
+                            </li>
+
+                            <li>
+                                Future versions of the application may update this policy as additional features are introduced.
+                            </li>
+
+                        </ul>
+
+                        <div class="alert alert-success mt-5">
+
+                            <h5>
+
+                                <i class="fa-solid fa-circle-info"></i>
+
+                                Disclaimer
+
+                            </h5>
+
+                            <p class="mb-0">
+
+                                This application is a Machine Learning based recommendation system developed for academic purposes. Although every effort has been made to improve prediction accuracy (approximately <strong>99.5%</strong> on the training and evaluation dataset), recommendations should be verified with agricultural experts before making real-world farming decisions.
+
+                            </p>
+
+                        </div>
+
+                        <div class="text-center mt-5">
+
+                            <a href="{% url 'signup' %}"
+                               class="btn btn-success btn-lg">
+
+                                <i class="fa-solid fa-arrow-left"></i>
+
+                                Back to Signup
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

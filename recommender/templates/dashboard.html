@@ -1,0 +1,261 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+
+<div class="dashboard-hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-8">
+        <h1><i class="fa-solid fa-gauge-high"></i> Admin Dashboard</h1>
+        <p class="lead">Monitor users, crop predictions and system analytics from one place.</p>
+      </div>
+      <div class="col-lg-4 text-lg-end">
+        <span class="badge bg-light text-success fs-6 px-3 py-2">Administrator Panel</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container py-5">
+
+<div class="row g-4">
+  <div class="col-lg-3"><div class="dashboard-card"><i class="fa-solid fa-users text-success fa-2x"></i><h5>Total Users</h5><h2>{{ total_users }}</h2></div></div>
+  <div class="col-lg-3"><div class="dashboard-card"><i class="fa-solid fa-seedling text-success fa-2x"></i><h5>Total Predictions</h5><h2>{{ total_predictions }}</h2></div></div>
+  <div class="col-lg-3"><div class="dashboard-card"><i class="fa-solid fa-chart-line text-success fa-2x"></i><h5>Accuracy</h5><h2>99.5%</h2></div></div>
+  <div class="col-lg-3"><div class="dashboard-card"><i class="fa-solid fa-user-shield text-success fa-2x"></i><h5>Admins</h5><h2>{{ total_admins }}</h2></div></div>
+</div>
+
+<div class="row mt-5 g-4">
+  <div class="col-lg-6">
+    <div class="chart-card">
+      <h4><i class="fa-solid fa-chart-pie text-success"></i> Crop Distribution</h4>
+      <p class="text-muted">Percentage of each recommended crop.</p>
+      <canvas id="pieChart"></canvas>
+    </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="chart-card">
+      <h4><i class="fa-solid fa-chart-line text-success"></i> Prediction Trend</h4>
+      <p class="text-muted">Daily prediction activity.</p>
+      <canvas id="lineChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="chart-card">
+      <h4><i class="fa-solid fa-chart-column text-success"></i> Average Soil Nutrients</h4>
+      <p class="text-muted">Average Nitrogen, Phosphorus and Potassium values.</p>
+      <canvas id="barChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<div class="row mt-5">
+<div class="col-12">
+<div class="table-card">
+
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+<h4 class="mb-2">Recent Predictions</h4>
+
+<div class="input-group" style="max-width:360px;">
+<span class="input-group-text bg-success text-white">
+<i class="fa-solid fa-magnifying-glass"></i>
+</span>
+<input type="text" id="predictionSearch" class="form-control" placeholder="Search username or crop...">
+</div>
+
+</div>
+
+<div class="table-responsive table-scroll">
+
+<table class="table table-hover table-striped align-middle">
+
+<thead class="table-success">
+<tr>
+<th>#</th>
+<th>User</th>
+<th>Crop</th>
+<th>Date & Time</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% for p in recent_predictions %}
+<tr>
+<td>{{ forloop.counter }}</td>
+<td>{{ p.user.username }}</td>
+<td><span class="badge bg-success">{{ p.predicted_label }}</span></td>
+<td>{{ p.created_at|date:"d M Y H:i" }}</td>
+</tr>
+{% empty %}
+<tr>
+<td colspan="4" class="text-center py-4">No prediction data available.</td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<footer class="bg-dark text-white mt-5 py-4">
+<div class="container text-center">
+<h5>Smart Crop Recommendation System</h5>
+<p class="mb-0">Admin Dashboard • Django • Bootstrap • Chart.js • Machine Learning</p>
+</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+
+<script>
+const search=document.getElementById("predictionSearch");
+if(search){
+search.addEventListener("keyup",function(){
+const value=this.value.toLowerCase();
+document.querySelectorAll("table tbody tr").forEach(row=>{
+row.style.display=row.innerText.toLowerCase().includes(value)?"":"none";
+});
+});
+}
+</script>
+<script>
+
+Chart.register(ChartDataLabels);
+
+// ================= PIE CHART =================
+
+new Chart(document.getElementById("pieChart"),{
+
+type:"pie",
+
+data:{
+
+labels:[
+{% for c in crop_counts %}
+"{{ c.predicted_label }}",
+{% endfor %}
+],
+
+datasets:[{
+
+data:[
+{% for c in crop_counts %}
+{{ c.total }},
+{% endfor %}
+]
+
+}]
+
+},
+
+options:{
+
+plugins:{
+
+legend:{
+position:"bottom"
+},
+
+datalabels:{
+
+color:"#fff",
+
+formatter:(value,ctx)=>{
+
+const total=ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);
+
+return ((value/total)*100).toFixed(1)+"%";
+
+}
+
+}
+
+}
+
+}
+
+});
+
+
+
+// ================= LINE CHART =================
+
+new Chart(document.getElementById("lineChart"),{
+
+type:"line",
+
+data:{
+
+labels:[
+{% for p in prediction_trend %}
+"{{ p.day|date:'d M' }}",
+{% endfor %}
+],
+
+datasets:[{
+
+label:"Predictions",
+
+data:[
+{% for p in prediction_trend %}
+{{ p.total }},
+{% endfor %}
+],
+
+fill:true,
+
+tension:.4
+
+}]
+
+}
+
+});
+
+
+
+// ================= BAR CHART =================
+
+new Chart(document.getElementById("barChart"),{
+
+type:"bar",
+
+data:{
+
+labels:["Nitrogen","Phosphorus","Potassium"],
+
+datasets:[{
+
+label:"Average",
+
+data:[
+
+{{ avg_n }},
+{{ avg_p }},
+{{ avg_k }}
+
+]
+
+}]
+
+}
+
+});
+
+</script>
+
+{% endblock %}

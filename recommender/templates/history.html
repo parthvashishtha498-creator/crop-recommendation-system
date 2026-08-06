@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Prediction History{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/history.css' %}">
+
+<div class="history-hero">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 class="display-3 fw-bold">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    Prediction History
+                </h1>
+                <p class="lead">
+                    View all your previous crop recommendations and analytics.
+                </p>
+            </div>
+            <div class="col-lg-5 text-center">
+                <img src="{% static 'images/his.avif' %}" class="img-fluid history-image rounded-4 shadow" alt="History">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container py-5">
+
+<div class="row g-4">
+
+<div class="col-md-3">
+<div class="history-card">
+<i class="fa-solid fa-seedling text-success"></i>
+<h5 class="mt-3">Total Predictions</h5>
+<h2>{{ predictions|length }}</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="history-card">
+<i class="fa-solid fa-bullseye text-success"></i>
+<h5 class="mt-3">Model Accuracy</h5>
+<h2>99.5%</h2>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="history-card">
+<i class="fa-solid fa-user text-success"></i>
+<h5 class="mt-3">Current User</h5>
+<h5>{{ request.user.username }}</h5>
+</div>
+</div>
+
+<div class="col-md-3">
+<div class="history-card">
+<i class="fa-solid fa-calendar text-success"></i>
+<h5 class="mt-3">Latest Prediction</h5>
+{% if predictions %}
+<p>{{ predictions.0.created_at|date:"d M Y" }}</p>
+{% else %}
+<p>--</p>
+{% endif %}
+</div>
+</div>
+
+</div>
+
+<div class="row g-4 mt-4">
+
+<div class="col-lg-6">
+<div class="chart-card">
+<h4><i class="fa-solid fa-chart-line text-success"></i> Prediction Timeline</h4>
+<canvas id="timelineChart"></canvas>
+</div>
+
+<div class="chart-card mt-4">
+<h4><i class="fa-solid fa-chart-column text-success"></i> Average Soil Nutrients</h4>
+<canvas id="nutrientChart"></canvas>
+</div>
+
+</div>
+
+<div class="col-lg-6">
+<div class="chart-card">
+<h4><i class="fa-solid fa-chart-pie text-success"></i> Crop Distribution</h4>
+<canvas id="cropChart"></canvas>
+</div>
+</div>
+
+</div>
+
+<div class="table-card mt-5">
+
+<div class="row mb-4">
+<div class="col-lg-6">
+<h3><i class="fa-solid fa-table text-success"></i> Prediction Records</h3>
+</div>
+<div class="col-lg-6 text-lg-end">
+<input type="text" id="historySearch" class="form-control search-box" placeholder="Search...">
+</div>
+</div>
+
+<div class="table-responsive">
+
+<table class="table table-hover align-middle" id="historyTable">
+
+<thead class="table-success">
+<tr>
+<th>#</th>
+<th>Date</th>
+<th>Crop</th>
+<th>N</th>
+<th>P</th>
+<th>K</th>
+<th>Temp</th>
+<th>Humidity</th>
+<th>pH</th>
+<th>Rainfall</th>
+</tr>
+</thead>
+
+<tbody>
+
+{% if predictions %}
+
+{% for item in predictions %}
+
+<tr>
+<td>{{ forloop.counter }}</td>
+<td>{{ item.created_at|date:"d M Y H:i" }}</td>
+<td><span class="badge bg-success">{{ item.predicted_label }}</span></td>
+<td>{{ item.N }}</td>
+<td>{{ item.P }}</td>
+<td>{{ item.K }}</td>
+<td>{{ item.temperature }}</td>
+<td>{{ item.humidity }}</td>
+<td>{{ item.ph }}</td>
+<td>{{ item.rainfall }}</td>
+</tr>
+
+{% endfor %}
+
+{% else %}
+
+<tr>
+<td colspan="10" class="text-center py-5">
+<i class="fa-solid fa-seedling fa-3x text-success mb-3"></i>
+<h4>No Prediction History Found</h4>
+<p class="text-muted">Make your first prediction to see it here.</p>
+<a href="{% url 'prediction' %}" class="btn btn-success">Make Prediction</a>
+</td>
+</tr>
+
+{% endif %}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
+<footer class="bg-dark text-white pt-5 pb-3">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-lg-4">
+<h3><i class="fa-solid fa-seedling text-success"></i> Crop Recommender</h3>
+<p class="text-light">
+Helping farmers make smarter decisions through Artificial Intelligence.
+</p>
+</div>
+
+<div class="col-lg-3">
+<h5>Quick Links</h5>
+<ul class="list-unstyled">
+<li><a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a></li>
+<li><a class="text-light text-decoration-none" href="{% url 'login' %}">Login</a></li>
+<li><a class="text-light text-decoration-none" href="{% url 'signup' %}">Signup</a></li>
+</ul>
+</div>
+
+<div class="col-lg-2">
+<h5>Technology</h5>
+<ul class="list-unstyled">
+<li>Django</li>
+<li>Bootstrap</li>
+<li>Scikit-Learn</li>
+<li>SQLite</li>
+</ul>
+</div>
+
+<div class="col-lg-3">
+<h5>Developer</h5>
+<p class="mb-1">Parth</p>
+<p class="mb-1">BCA Data Science</p>
+<p>PIET, Samalkha</p>
+</div>
+
+</div>
+
+<hr>
+
+<div class="text-center">
+© 2026 Smart Crop Recommendation System. All Rights Reserved.
+</div>
+
+</div>
+
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const search=document.getElementById("historySearch");
+if(search){
+search.addEventListener("keyup",function(){
+const value=this.value.toLowerCase();
+document.querySelectorAll("#historyTable tbody tr").forEach(function(row){
+row.style.display=row.innerText.toLowerCase().includes(value)?"":"none";
+});
+});
+}
+
+const timeline=document.getElementById("timelineChart");
+if(timeline){
+new Chart(timeline,{
+type:"line",
+data:{
+labels:[{% for p in predictions %}"{{ p.created_at|date:'d M' }}",{% endfor %}],
+datasets:[{
+label:"Predictions",
+data:[{% for p in predictions %}{{ forloop.counter }},{% endfor %}],
+tension:.4
+}]
+}
+});
+}
+
+const nutrient=document.getElementById("nutrientChart");
+if(nutrient){
+new Chart(nutrient,{
+type:"bar",
+data:{
+labels:["Nitrogen","Phosphorus","Potassium"],
+datasets:[{
+label:"Average Values",
+data:[
+{% if predictions %}{{ predictions.0.N }},{{ predictions.0.P }},{{ predictions.0.K }}{% else %}0,0,0{% endif %}
+]
+}]
+}
+});
+}
+
+const crop=document.getElementById("cropChart");
+if(crop){
+new Chart(crop,{
+type:"pie",
+data:{
+labels:[{% for p in predictions %}"{{ p.predicted_label }}",{% endfor %}],
+datasets:[{
+data:[{% for p in predictions %}1,{% endfor %}]
+}]
+}
+});
+}
+</script>
+
+
+{% endblock %}

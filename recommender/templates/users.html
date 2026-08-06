@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Users Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold">
+            <i class="fa-solid fa-users text-success"></i>
+            Users Management
+        </h2>
+        <p class="text-muted mb-0">
+            Total Users: <strong>{{ total_users }}</strong>
+        </p>
+    </div>
+
+    <form method="GET">
+        <div class="input-group">
+            <input type="text"
+                   class="form-control"
+                   placeholder="Search username..."
+                   name="search"
+                   value="{{ search }}">
+            <button class="btn btn-success">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+    </form>
+</div>
+
+<div class="card shadow border-0">
+    <div class="card-header bg-success text-white">
+        <h4 class="mb-0">
+            <i class="fa-solid fa-user-group"></i>
+            Registered Users
+        </h4>
+    </div>
+
+    <div class="card-body table-responsive">
+
+        <table class="table table-hover align-middle">
+
+            <thead class="table-success">
+
+                <tr>
+                    <th>Avatar</th>
+                    <th>Full Name</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Joined</th>
+                    <th>Predictions</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+            {% for user in users %}
+
+                <tr>
+
+                    <td>
+                        <img src="{{ user.profile.image.url }}"
+                             width="55"
+                             height="55"
+                             class="rounded-circle border"
+                             style="object-fit:cover;">
+                    </td>
+
+                    <td>
+                        {{ user.first_name }} {{ user.last_name }}
+                    </td>
+
+                    <td>
+                        {{ user.username }}
+                    </td>
+
+                    <td>
+                        {{ user.email }}
+                    </td>
+
+                    <td>
+                        {{ user.date_joined|date:"d M Y" }}
+                    </td>
+
+                    <td>
+                        <span class="badge bg-success">
+                            {{ user.prediction_count }}
+                        </span>
+                    </td>
+
+                    <td>
+                        {% if user.is_active %}
+                        <span class="badge bg-primary">
+                            Active
+                        </span>
+                        {% else %}
+                        <span class="badge bg-danger">
+                            Inactive
+                        </span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+
+                        <a href="{% url 'user_details' user.id %}"
+   class="btn btn-outline-success btn-sm">
+
+    <i class="fa-solid fa-eye"></i>
+
+    View
+
+</a>
+
+                    </td>
+
+                </tr>
+
+            {% empty %}
+
+                <tr>
+                    <td colspan="8" class="text-center py-4">
+                        No users found.
+                    </td>
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</div>
+{% endblock %}

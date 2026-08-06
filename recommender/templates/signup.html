@@ -1,0 +1,231 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Create Account{% endblock %}
+
+{% block content %}
+
+<section class="py-5" style="background:linear-gradient(135deg,#eefaf2,#ffffff);">
+
+<div class="container">
+
+<div class="card border-0 shadow-lg overflow-hidden">
+
+<div class="row g-0">
+
+<!-- LEFT -->
+
+<div class="col-lg-5 text-white d-flex flex-column justify-content-center p-5"
+style="background:
+linear-gradient(rgba(0,90,40,.72),rgba(0,90,40,.72)),
+url('{% static "images/carousel3.png" %}') center/cover no-repeat;min-height:760px;">
+
+<h1 class="fw-bold display-6 mb-3">
+<i class="fa-solid fa-seedling"></i>
+Join Smart Farming
+</h1>
+
+<p class="mb-4">
+Create your account to receive AI-powered crop recommendations and securely save every prediction.
+</p>
+
+<div class="mb-3">
+<h5><i class="fa-solid fa-brain"></i> AI Crop Recommendation</h5>
+<p class="small">Machine learning suggests the most suitable crop.</p>
+</div>
+
+<div class="mb-3">
+<h5><i class="fa-solid fa-lock"></i> Secure Account</h5>
+<p class="small">Your prediction history is stored safely.</p>
+</div>
+
+<div class="mb-4">
+<h5><i class="fa-solid fa-clock-rotate-left"></i> Prediction History</h5>
+<p class="small">View previous recommendations anytime.</p>
+</div>
+
+</div>
+
+<!-- RIGHT -->
+
+<div class="col-lg-7 bg-white p-5">
+
+<h2 class="fw-bold text-success mb-2">
+<i class="fa-solid fa-user-plus"></i>
+Create Account
+</h2>
+
+<p class="text-muted mb-4">
+Start your smart farming journey today.
+</p>
+
+{% if messages %}
+{% for message in messages %}
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+Swal.fire({
+icon:"{{ message.tags }}",
+title:"{{ message|escapejs }}",
+timer:1800,
+showConfirmButton:false
+});
+});
+</script>
+{% endfor %}
+{% endif %}
+
+<form method="POST">
+{% csrf_token %}
+
+<div class="row">
+<div class="col-md-6 mb-3">
+<label>First Name</label>
+<input type="text" class="form-control rounded-3" name="first_name" required>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Last Name</label>
+<input type="text" class="form-control rounded-3" name="last_name" required>
+</div>
+</div>
+
+<div class="mb-3">
+<label>Username</label>
+<input type="text" class="form-control rounded-3" name="username" required>
+</div>
+
+<div class="mb-3">
+<label>Email</label>
+<input type="email" class="form-control rounded-3" name="email" required>
+</div>
+
+<div class="row">
+<div class="col-md-6 mb-3">
+<label>Password</label>
+<div class="input-group">
+<input type="password" class="form-control" id="password" name="password1" required>
+<button class="btn btn-outline-secondary" type="button" onclick="togglePassword('password','eye1')">
+<i class="fa-solid fa-eye" id="eye1"></i>
+</button>
+</div>
+<div class="progress mt-2" style="height:6px;">
+<div id="strengthBar" class="progress-bar bg-success" style="width:0%"></div>
+</div>
+<small class="text-muted">Use 8+ characters with letters & numbers.</small>
+</div>
+
+<div class="col-md-6 mb-3">
+<label>Confirm Password</label>
+<div class="input-group">
+<input type="password" class="form-control" id="confirmPassword" name="password2" required>
+<button class="btn btn-outline-secondary" type="button" onclick="togglePassword('confirmPassword','eye2')">
+<i class="fa-solid fa-eye" id="eye2"></i>
+</button>
+</div>
+</div>
+</div>
+
+<div class="form-check mb-4">
+<input class="form-check-input" type="checkbox" required id="terms">
+<label class="form-check-label" for="terms">
+I agree to <a href="{% url 'terms_privacy' %}"
+   target="_blank"
+   class="text-success fw-semibold">
+
+    Terms & Privacy
+
+</a>
+</label>
+</div>
+
+<button class="btn btn-success btn-lg w-100">
+<i class="fa-solid fa-user-check"></i>
+Create Account
+</button>
+
+</form>
+
+<div class="text-center mt-4">
+Already have an account?
+<a href="{% url 'login' %}" class="fw-bold text-success text-decoration-none">Login</a>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<footer class="bg-dark text-white pt-5 pb-3">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-lg-4">
+<h4><i class="fa-solid fa-seedling text-success"></i> Crop Recommender</h4>
+<p>Helping farmers make better decisions with Artificial Intelligence.</p>
+</div>
+
+<div class="col-lg-3">
+<h5>Quick Links</h5>
+<ul class="list-unstyled">
+<li><a href="{% url 'home' %}" class="text-white text-decoration-none">Home</a></li>
+<li><a href="{% url 'login' %}" class="text-white text-decoration-none">Login</a></li>
+<li><a href="{% url 'signup' %}" class="text-white text-decoration-none">Signup</a></li>
+</ul>
+</div>
+
+<div class="col-lg-2">
+<h5>Technology</h5>
+<ul class="list-unstyled">
+<li>Django</li>
+<li>Bootstrap</li>
+<li>Scikit-Learn</li>
+<li>SQLite</li>
+</ul>
+</div>
+
+<div class="col-lg-3">
+<h5>Developer</h5>
+<p>Parth<br>BCA Data Science<br>PIET Samalkha</p>
+</div>
+
+</div>
+
+<hr>
+
+<div class="text-center">
+© 2026 Smart Crop Recommendation System
+</div>
+
+</div>
+
+</footer>
+
+<script>
+function togglePassword(inputId,eyeId){
+const input=document.getElementById(inputId);
+const eye=document.getElementById(eyeId);
+if(input.type==="password"){
+input.type="text";
+eye.classList.replace("fa-eye","fa-eye-slash");
+}else{
+input.type="password";
+eye.classList.replace("fa-eye-slash","fa-eye");
+}
+}
+
+const pwd=document.getElementById("password");
+if(pwd){
+pwd.addEventListener("input",function(){
+let s=Math.min(this.value.length*10,100);
+document.getElementById("strengthBar").style.width=s+"%";
+});
+}
+</script>
+
+{% endblock %}

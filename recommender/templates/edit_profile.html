@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-success text-white">
+
+                    <h3 class="mb-0">
+                        <i class="fa-solid fa-user-pen"></i>
+                        Edit Profile
+                    </h3>
+
+                </div>
+
+                <div class="card-body p-5">
+
+                    <form method="POST"
+                          enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <!-- Profile Image -->
+
+                        <div class="text-center mb-4">
+
+                            <img src="{{ request.user.profile.image.url }}"
+                                 id="preview"
+                                 class="rounded-circle shadow"
+                                 width="150"
+                                 height="150"
+                                 style="object-fit:cover;">
+
+                            <br><br>
+
+                            <label for="image"
+                                   class="btn btn-outline-success">
+
+                                <i class="fa-solid fa-camera"></i>
+
+                                Change Photo
+
+                            </label>
+
+                            <input type="file"
+                                   id="image"
+                                   name="image"
+                                   accept="image/*"
+                                   hidden
+                                   onchange="previewImage(event)">
+
+                        </div>
+
+                        <!-- First & Last Name -->
+
+                        <div class="row">
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    First Name
+
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       name="first_name"
+                                       value="{{ request.user.first_name }}">
+
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+
+                                <label class="form-label">
+
+                                    Last Name
+
+                                </label>
+
+                                <input type="text"
+                                       class="form-control"
+                                       name="last_name"
+                                       value="{{ request.user.last_name }}">
+
+                            </div>
+
+                        </div>
+
+                        <!-- Username -->
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Username
+
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="{{ request.user.username }}"
+                                   readonly>
+
+                        </div>
+
+                        <!-- Email -->
+
+                        <div class="mb-4">
+
+                            <label class="form-label">
+
+                                Email
+
+                            </label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   value="{{ request.user.email }}">
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a href="{% url 'profile' %}"
+                               class="btn btn-secondary">
+
+                                Cancel
+
+                            </a>
+
+                            <button class="btn btn-success">
+
+                                <i class="fa-solid fa-floppy-disk"></i>
+
+                                Save Changes
+
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+function previewImage(event){
+
+    const preview=document.getElementById("preview");
+
+    preview.src=URL.createObjectURL(event.target.files[0]);
+
+}
+
+</script>
+
+{% endblock %}

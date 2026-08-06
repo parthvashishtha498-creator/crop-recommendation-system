@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<section class="container py-5">
+
+    <div class="row justify-content-center">
+
+        <div class="col-lg-10">
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="row g-0">
+
+                    <!-- Left Image -->
+
+                    <div class="col-lg-5 position-relative"
+                    style="
+                    background:
+                    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.60)),
+                    url('{% static "images/carousel4.png" %}');
+                    background-size:cover;
+                    background-position:center;
+                    min-height:650px;
+                    ">
+
+                        <div class="position-absolute bottom-0 start-0 p-5 text-white">
+
+                            <h1 class="display-4 fw-bold">
+
+                                Welcome Back
+
+                            </h1>
+
+                            <p class="lead">
+
+                                Login to continue using the
+                                Smart Crop Recommendation System.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Right Side -->
+
+                    <div class="col-lg-7 bg-white p-5">
+
+                        <h2 class="fw-bold mb-4">
+
+                            <i class="fa-solid fa-right-to-bracket text-success"></i>
+
+                            Login
+
+                        </h2>
+
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-danger alert-dismissible fade show">
+
+                                    {{ message }}
+
+                                    <button class="btn-close"
+                                            data-bs-dismiss="alert"></button>
+
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        <form method="POST">
+
+                            {% csrf_token %}
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+
+                                    Username
+
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+
+                                        <i class="fa-solid fa-user"></i>
+
+                                    </span>
+
+                                    <input type="text"
+                                           class="form-control"
+                                           name="username"
+                                           placeholder="Enter Username"
+                                           required>
+
+                                </div>
+
+                            </div>
+
+                            <div class="mb-4">
+
+                                <label class="form-label">
+
+                                    Password
+
+                                </label>
+
+                                <div class="input-group">
+
+                                    <input type="password"
+                                           class="form-control"
+                                           id="password"
+                                           name="password"
+                                           placeholder="Enter Password"
+                                           required>
+
+                                    <button class="btn btn-outline-secondary"
+                                            type="button"
+                                            onclick="togglePassword()">
+
+                                        <i class="fa-solid fa-eye"
+                                           id="eye"></i>
+
+                                    </button>
+
+                                </div>
+
+                            </div>
+
+                            <button class="btn btn-success w-100 py-2">
+
+                                <i class="fa-solid fa-right-to-bracket"></i>
+
+                                Login
+
+                            </button>
+
+                        </form>
+
+                        <div class="text-center mt-4">
+
+                            Don't have an account?
+
+                            <a href="{% url 'signup' %}"
+                               class="text-success fw-bold text-decoration-none">
+
+                                Create Account
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+function togglePassword(){
+
+    const password=document.getElementById("password");
+    const eye=document.getElementById("eye");
+
+    if(password.type==="password"){
+
+        password.type="text";
+        eye.classList.replace("fa-eye","fa-eye-slash");
+
+    }
+
+    else{
+
+        password.type="password";
+        eye.classList.replace("fa-eye-slash","fa-eye");
+
+    }
+
+}
+
+</script>
+
+<footer class="bg-dark text-white pt-5 pb-3">
+
+<div class="container">
+
+<div class="row">
+
+<div class="col-lg-4">
+<h3><i class="fa-solid fa-seedling text-success"></i> Crop Recommender</h3>
+<p class="text-light">
+Helping farmers make smarter decisions through Artificial Intelligence.
+</p>
+</div>
+
+<div class="col-lg-3">
+<h5>Quick Links</h5>
+<ul class="list-unstyled">
+<li><a class="text-light text-decoration-none" href="{% url 'home' %}">Home</a></li>
+<li><a class="text-light text-decoration-none" href="{% url 'login' %}">Login</a></li>
+<li><a class="text-light text-decoration-none" href="{% url 'signup' %}">Signup</a></li>
+</ul>
+</div>
+
+<div class="col-lg-2">
+<h5>Technology</h5>
+<ul class="list-unstyled">
+<li>Django</li>
+<li>Bootstrap</li>
+<li>Scikit-Learn</li>
+<li>SQLite</li>
+</ul>
+</div>
+
+<div class="col-lg-3">
+<h5>Developer</h5>
+<p class="mb-1">Parth</p>
+<p class="mb-1">BCA Data Science</p>
+<p>PIET, Samalkha</p>
+</div>
+
+</div>
+
+<hr>
+
+<div class="text-center">
+© 2026 Smart Crop Recommendation System. All Rights Reserved.
+</div>
+
+</div>
+
+</footer>
+
+{% endblock %}
