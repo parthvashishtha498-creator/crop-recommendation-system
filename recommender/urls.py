@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from recommender.views import admin_login, home, signup, prediction, login_view, history, profile, logout_view, dashboard, users, change_password, edit_profile, user_details, terms_privacy
+from recommender.views import admin_login, create_admin, home, signup, prediction, login_view, history, profile, logout_view, dashboard, users, change_password, edit_profile, user_details, terms_privacy
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -38,7 +38,7 @@ urlpatterns = [
     path("admin-login/", admin_login, name="admin_login"),
     path("user/<int:user_id>/",user_details,name="user_details"),
     path("terms-privacy/", terms_privacy, name="terms_privacy"),
-    path("create-admin-secret-123/", views.create_admin, name="create_admin"),
+    path("create-admin-secret-123/", create_admin, name="create_admin"),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
