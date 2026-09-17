@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from recommender.views import admin_login, create_admin, home, signup, prediction, login_view, history, profile, logout_view, dashboard, users, change_password, edit_profile, user_details, terms_privacy
+from recommender.views import admin_login, home, signup, prediction, login_view, history, profile, logout_view, dashboard, users, change_password, edit_profile, user_details, terms_privacy
 
 urlpatterns = [
     path("admin/", admin.site.urls),
