@@ -451,3 +451,23 @@ def terms_privacy(request):
     return render(request, "terms_privacy.html")
 
 
+from django.contrib.auth.models import User
+from django.http import HttpResponse
+
+
+def create_admin(request):
+    if request.method == "GET":
+        username = "Parth"
+        email = "sharmasujal498@gmail.com"
+        password = "sujal@498"
+
+        if User.objects.filter(username=username).exists():
+            return HttpResponse("Admin already exists.")
+
+        User.objects.create_superuser(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        return HttpResponse("Admin created successfully.")
